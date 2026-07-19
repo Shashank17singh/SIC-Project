@@ -1,7 +1,4 @@
-# Pinned to 0.10.14: later mediapipe releases dropped the legacy
-# mp.solutions.pose API in favor of the Tasks API (which needs an external
-# .task model file downloaded at runtime). 0.10.14 bundles its own model
-# weights, so the app has no external downloads to worry about.
+
 mediapipe==0.10.14
 
 opencv-contrib-python-headless>=4.9,<5
