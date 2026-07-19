@@ -14,7 +14,7 @@ from streamlit_webrtc import RTCConfiguration, VideoProcessorBase, webrtc_stream
 from src.analyzer import ExerciseAnalyzer
 from src.exercise_rules import EXERCISES
 
-st.set_page_config(page_title="AI Physiotherapy Posture Checker", page_icon="🏋️", layout="wide")
+st.set_page_config(page_title="AI Physiotherapy Posture Checker", layout="wide")
 
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
@@ -64,7 +64,7 @@ class PostureVideoProcessor(VideoProcessorBase):
 
 
 def main() -> None:
-    st.title("🏋️ AI-Based Physiotherapy Posture Checker")
+    st.title("AI-Based Physiotherapy Posture Checker")
     st.caption(
         "Real-time pose estimation (MediaPipe) checks exercise form and counts reps — "
         "runs entirely in your browser + this session, no video is stored."
@@ -115,9 +115,9 @@ def main() -> None:
                 stats_placeholder.metric("Hold time", f"{vp.last_hold_seconds:0.1f}s")
 
             if vp.last_feedback:
-                feedback_placeholder.error("\n".join(f"⚠️ {m}" for m in vp.last_feedback))
+                feedback_placeholder.error("\n".join(m for m in vp.last_feedback))
             else:
-                feedback_placeholder.success("✅ Form looks good")
+                feedback_placeholder.success("Form looks good")
         else:
             st.info("Click **Start** on the video panel to begin.")
 
