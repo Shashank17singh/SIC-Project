@@ -4,7 +4,7 @@
 # weights, so the app has no external downloads to worry about.
 mediapipe==0.10.14
 
-opencv-contrib-python>=4.9,<5
+opencv-contrib-python-headless>=4.9,<5
 numpy>=1.26,<3
 streamlit>=1.38
 streamlit-webrtc>=0.47
