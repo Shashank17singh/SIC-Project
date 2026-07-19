@@ -29,6 +29,40 @@ explainable (you can point at the exact angle and threshold that fired).
 
 ---
 
+
+
+### 🏃 Computer Vision Pipeline
+
+`mermaid
+graph TD
+    subgraph "Streamlit Frontend"
+    A[Browser Webcam] -->|streamlit-webrtc| B(Video Frame)
+    H[Live Feedback Overlay] --> A
+    end
+    
+    subgraph "Pose Estimation Engine"
+    B --> C{MediaPipe Pose Model}
+    C -->|33 Body Landmarks| D[Joint Angle Calculator]
+    D --> E(Knee, Hip, Elbow, Shoulder Angles)
+    end
+    
+    subgraph "Rules Engine"
+    E --> F{Finite State Machine}
+    F -->|Depth Check| G[Rep Counter]
+    F -->|Threshold Check| I[Form Error Detection]
+    G --> H
+    I --> H
+    end
+    
+    classDef io fill:#f9f0ff,stroke:#8a2be2,stroke-width:2px,color:#000;
+    classDef core fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000;
+    classDef logic fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000;
+    
+    class A,H,B io;
+    class C,D,E core;
+    class F,G,I logic;
+`
+
 ## ✨ Features
 
 | | |
