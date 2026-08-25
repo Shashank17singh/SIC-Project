@@ -24,6 +24,8 @@ EXERCISE_LABELS = {
     "squat": "Squat",
     "bicep_curl": "Bicep Curl",
     "plank": "Plank (hold)",
+    "push_up": "Push-up",
+    "lunge": "Lunge",
 }
 
 
@@ -95,14 +97,14 @@ def main() -> None:
         if camera_facing == "Front":
             video_constraints = {
                 "facingMode": "user",
-                "width": {"ideal": 1280, "min": 640},
-                "height": {"ideal": 720, "min": 480}
+                "width": {"ideal": 1280},
+                "height": {"ideal": 720}
             }
         else:
             video_constraints = {
-                "facingMode": {"exact": "environment"},
-                "width": {"ideal": 1280, "min": 640},
-                "height": {"ideal": 720, "min": 480}
+                "facingMode": "environment",
+                "width": {"ideal": 1280},
+                "height": {"ideal": 720}
             }
 
         ctx = webrtc_streamer(
