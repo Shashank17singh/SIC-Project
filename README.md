@@ -33,7 +33,7 @@ explainable (you can point at the exact angle and threshold that fired).
 
 ### 🏃 Computer Vision Pipeline
 
-`mermaid
+```mermaid
 graph TD
     subgraph "Streamlit Frontend"
     A[Browser Webcam] -->|streamlit-webrtc| B(Video Frame)
@@ -61,7 +61,7 @@ graph TD
     class A,H,B io;
     class C,D,E core;
     class F,G,I logic;
-`
+```
 
 ## ✨ Features
 
