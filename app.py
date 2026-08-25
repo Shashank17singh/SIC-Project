@@ -78,6 +78,7 @@ def main() -> None:
             format_func=lambda k: EXERCISE_LABELS[k],
         )
         side = st.radio("Which side is facing the camera?", options=["LEFT", "RIGHT"], horizontal=True)
+        camera_facing = st.radio("Camera", ["Front", "Back (Mobile)"], horizontal=True)
         st.divider()
         st.markdown(
             "**Camera tip:** stand side-on to the camera (sagittal view) so the "
@@ -91,11 +92,12 @@ def main() -> None:
     col_video, col_stats = st.columns([2, 1])
 
     with col_video:
+        facing_mode = "user" if camera_facing == "Front" else "environment"
         ctx = webrtc_streamer(
             key="posture-checker",
             video_processor_factory=PostureVideoProcessor,
             rtc_configuration=RTC_CONFIGURATION,
-            media_stream_constraints={"video": True, "audio": False},
+            media_stream_constraints={"video": {"facingMode": facing_mode}, "audio": False},
         )
 
     with col_stats:
