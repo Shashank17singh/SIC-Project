@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏋️ AI-Based Physiotherapy Posture Checker
+#  AI-Based Physiotherapy Posture Checker
 
 **Real-time exercise form feedback using pose estimation — counts reps, flags shallow reps, and calls out common form errors as they happen**
 
@@ -13,7 +13,7 @@
 
 ---
 
-## 📖 Overview
+##  Overview
 
 Points a browser webcam at MediaPipe's pose-landmark model, converts the
 landmarks into joint angles (knee, hip, elbow, shoulder), and runs each
@@ -31,7 +31,7 @@ explainable (you can point at the exact angle and threshold that fired).
 
 
 
-### 🏃 Computer Vision Pipeline
+###  Computer Vision Pipeline
 
 ```mermaid
 graph TD
@@ -63,20 +63,20 @@ graph TD
     class F,G,I logic;
 ```
 
-## ✨ Features
+##  Features
 
 | | |
 |---|---|
-| 🎯 **Rep Counting** | 2-state machine per exercise, driven by one primary joint angle (e.g. knee angle for squats) |
-| 📏 **Shallow-Rep Detection** | Tracks the minimum angle reached during the "down" phase — flags reps that didn't reach full depth |
-| ⚠️ **Live Form Feedback** | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as on-screen overlay + sidebar warnings |
-| ⏱️ **Hold Timer** | Plank uses a body-line-angle hold timer instead of rep counting |
-| 🌐 **Browser Webcam, No Server Camera** | `streamlit-webrtc` streams frames from the browser's `getUserMedia`, so it deploys on Streamlit Community Cloud without needing a camera on the server |
-| 🧪 **Testable Core Logic** | Angle math and rep/hold state machines are pure functions with no MediaPipe or webcam dependency — unit tested in isolation |
+|  **Rep Counting** | 2-state machine per exercise, driven by one primary joint angle (e.g. knee angle for squats) |
+|  **Shallow-Rep Detection** | Tracks the minimum angle reached during the "down" phase — flags reps that didn't reach full depth |
+|  **Live Form Feedback** | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as on-screen overlay + sidebar warnings |
+|  **Hold Timer** | Plank uses a body-line-angle hold timer instead of rep counting |
+|  **Browser Webcam, No Server Camera** | `streamlit-webrtc` streams frames from the browser's `getUserMedia`, so it deploys on Streamlit Community Cloud without needing a camera on the server |
+|  **Testable Core Logic** | Angle math and rep/hold state machines are pure functions with no MediaPipe or webcam dependency — unit tested in isolation |
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Language** — Python 3.x
 **Pose Estimation** — MediaPipe Pose (legacy `solutions` API, pinned to `0.10.14`)
@@ -86,7 +86,7 @@ graph TD
 
 ---
 
-## 🧠 Architecture Overview
+##  Architecture Overview
 
 ```
 Browser webcam (getUserMedia)
@@ -118,7 +118,7 @@ Streamlit sidebar (live stats) + on-frame overlay
 
 ---
 
-## ⚙️ Setup and Installation
+##  Setup and Installation
 
 ### 1. Clone the repository
 
@@ -152,7 +152,7 @@ pytest tests/ -v
 
 ---
 
-## 🎥 Usage Tips
+##  Usage Tips
 
 - Stand **side-on** to the camera (sagittal view) — the joint angles this
   app checks (knee, hip, elbow) are only meaningful from a side angle, not
@@ -165,7 +165,7 @@ pytest tests/ -v
 
 ---
 
-## ⚠️ Limitations
+##  Limitations
 
 - **2D angles only.** MediaPipe Pose here runs on a single RGB frame with
   no depth sensor, so angles are computed in the image plane. A camera
@@ -185,7 +185,7 @@ pytest tests/ -v
 
 ---
 
-## 🔭 Future Work
+##  Future Work
 
 - Automatic exercise recognition (classify which exercise is being
   performed instead of a manual dropdown).
@@ -198,6 +198,6 @@ pytest tests/ -v
 
 ---
 
-## 📄 License
+##  License
 
 MIT
