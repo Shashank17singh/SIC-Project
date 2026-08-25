@@ -140,8 +140,50 @@ def build_plank_spec(side: Side = "LEFT") -> ExerciseSpec:
     )
 
 
+def build_push_up_spec(side: Side = "LEFT") -> ExerciseSpec:
+    j = _side_angles(side)
+    return ExerciseSpec(
+        display_name="Push-up",
+        angles=[
+            AngleSpec("elbow", j["shoulder"], j["elbow"], j["wrist"]),
+            AngleSpec("body_line", j["shoulder"], j["hip"], j["ankle"]),
+        ],
+        rep_stage=RepStage(primary_angle="elbow", down_below=90, up_above=160, shallow_below=110),
+        form_checks=[
+            FormCheck(
+                angle_name="body_line",
+                min_ok=150, max_ok=180,
+                message="Keep your body straight — don't let your hips sag or pike up",
+                active_stage=None,
+            ),
+        ],
+    )
+
+
+def build_lunge_spec(side: Side = "LEFT") -> ExerciseSpec:
+    j = _side_angles(side)
+    return ExerciseSpec(
+        display_name="Lunge",
+        angles=[
+            AngleSpec("front_knee", j["hip"], j["knee"], j["ankle"]),
+            AngleSpec("torso_lean", j["shoulder"], j["hip"], j["knee"]),
+        ],
+        rep_stage=RepStage(primary_angle="front_knee", down_below=90, up_above=160, shallow_below=110),
+        form_checks=[
+            FormCheck(
+                angle_name="torso_lean",
+                min_ok=130, max_ok=180,
+                message="Keep your chest up — don't lean too far forward",
+                active_stage="down",
+            ),
+        ],
+    )
+
+
 EXERCISES = {
     "squat": build_squat_spec,
     "bicep_curl": build_bicep_curl_spec,
     "plank": build_plank_spec,
+    "push_up": build_push_up_spec,
+    "lunge": build_lunge_spec,
 }
