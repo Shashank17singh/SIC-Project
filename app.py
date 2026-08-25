@@ -80,7 +80,7 @@ def main() -> None:
             format_func=lambda k: EXERCISE_LABELS[k],
         )
         side = st.radio("Which side is facing the camera?", options=["LEFT", "RIGHT"], horizontal=True)
-
+        camera_facing = st.radio("Camera", ["Front", "Back"], horizontal=True)
         st.divider()
         st.markdown(
             "**Camera tip:** stand side-on to the camera (sagittal view) so the "
@@ -94,16 +94,20 @@ def main() -> None:
     col_video, col_stats = st.columns([2, 1])
 
     with col_video:
-        # We rely on the native streamlit-webrtc camera selection dropdown
-        # instead of forcing facingMode, which crashes on many mobile browsers.
+        # We change the `key` based on the camera choice. This forces Streamlit to completely 
+        # destroy the old WebRTC component and create a new one, cleanly releasing the hardware 
+        # lock and preventing "NotReadableError: Could not start video source" on mobile.
+        streamer_key = f"posture-checker-{camera_facing}"
+        
         ctx = webrtc_streamer(
-            key="posture-checker",
+            key=streamer_key,
             video_processor_factory=PostureVideoProcessor,
             rtc_configuration=RTC_CONFIGURATION,
             media_stream_constraints={
                 "video": {
-                    "width": {"ideal": 1280, "min": 640},
-                    "height": {"ideal": 720, "min": 480}
+                    "facingMode": "user" if camera_facing == "Front" else "environment",
+                    "width": {"ideal": 1920},
+                    "height": {"ideal": 1080}
                 },
                 "audio": False
             },
