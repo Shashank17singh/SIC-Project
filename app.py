@@ -80,7 +80,7 @@ def main() -> None:
             format_func=lambda k: EXERCISE_LABELS[k],
         )
         side = st.radio("Which side is facing the camera?", options=["LEFT", "RIGHT"], horizontal=True)
-        camera_facing = st.radio("Camera", ["Front", "Back (Mobile)"], horizontal=True)
+
         st.divider()
         st.markdown(
             "**Camera tip:** stand side-on to the camera (sagittal view) so the "
@@ -94,24 +94,25 @@ def main() -> None:
     col_video, col_stats = st.columns([2, 1])
 
     with col_video:
-        if camera_facing == "Front":
-            video_constraints = {
-                "facingMode": "user",
-                "width": {"ideal": 1280},
-                "height": {"ideal": 720}
-            }
-        else:
-            video_constraints = {
-                "facingMode": "environment",
-                "width": {"ideal": 1280},
-                "height": {"ideal": 720}
-            }
-
+        # We rely on the native streamlit-webrtc camera selection dropdown
+        # instead of forcing facingMode, which crashes on many mobile browsers.
         ctx = webrtc_streamer(
             key="posture-checker",
             video_processor_factory=PostureVideoProcessor,
             rtc_configuration=RTC_CONFIGURATION,
-            media_stream_constraints={"video": video_constraints, "audio": False},
+            media_stream_constraints={
+                "video": {
+                    "width": {"ideal": 1280, "min": 640},
+                    "height": {"ideal": 720, "min": 480}
+                },
+                "audio": False
+            },
+            video_html_attrs={
+                "style": {"width": "100%", "margin": "0 auto", "border": "5px solid yellow"},
+                "controls": False,
+                "autoPlay": True,
+                "playsinline": True,
+            }
         )
 
     with col_stats:
