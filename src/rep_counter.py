@@ -3,7 +3,7 @@ State machines for turning a stream of per-frame angles into rep counts
 (squat, curl) or hold time (plank).
 
 Kept deliberately simple (a 2-state machine per rep-based exercise) rather
-than a learned temporal model — it's transparent, has zero training cost,
+than a learned temporal model - it's transparent, has zero training cost,
 and is easy to tune per-exercise by eye from a few test videos. See
 README > Future Work for where an ML-based rep segmentation model would
 plug in.

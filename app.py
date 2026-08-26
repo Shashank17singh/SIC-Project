@@ -1,8 +1,8 @@
 """
-AI Physiotherapy Posture Checker — Streamlit front end.
+AI Physiotherapy Posture Checker - Streamlit front end.
 
 Uses streamlit-webrtc so the webcam runs in the *browser* (getUserMedia)
-and frames are streamed to this server over WebRTC — this is what makes it
+and frames are streamed to this server over WebRTC - this is what makes it
 deployable on Streamlit Community Cloud, where the server itself has no
 camera and cv2.VideoCapture(0) would fail.
 """
@@ -68,7 +68,7 @@ class PostureVideoProcessor(VideoProcessorBase):
 def main() -> None:
     st.title("AI-Based Physiotherapy Posture Checker")
     st.caption(
-        "Real-time pose estimation (MediaPipe) checks exercise form and counts reps — "
+        "Real-time pose estimation (MediaPipe) checks exercise form and counts reps - "
         "runs entirely in your browser + this session, no video is stored."
     )
 
@@ -131,7 +131,7 @@ def main() -> None:
             if vp.last_rep_count is not None:
                 stats_placeholder.metric("Reps", vp.last_rep_count)
                 if vp.last_rep_shallow:
-                    st.warning("Last rep was shallow — try to go deeper.")
+                    st.warning("Last rep was shallow - try to go deeper.")
             elif vp.last_hold_seconds is not None:
                 stats_placeholder.metric("Hold time", f"{vp.last_hold_seconds:0.1f}s")
 

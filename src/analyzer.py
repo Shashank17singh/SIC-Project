@@ -3,7 +3,7 @@ Ties everything together: takes a raw BGR frame, runs MediaPipe pose
 detection, computes the angles the current exercise needs, updates rep/hold
 state, runs form checks, and draws the annotated overlay.
 
-This is the single entry point the Streamlit app calls per frame — it does
+This is the single entry point the Streamlit app calls per frame - it does
 not know about Streamlit, webcam I/O, or UI at all, which keeps it unit
 testable (see tests/test_angles.py) independent of any of that.
 """
@@ -35,7 +35,7 @@ class FrameResult:
 
 class ExerciseAnalyzer:
     """One instance per active session/exercise choice. Holds the MediaPipe
-    Pose model and the rep/hold state across frames — do not share a single
+    Pose model and the rep/hold state across frames - do not share a single
     instance across two different live sessions."""
 
     def __init__(self, exercise_key: str, side: str = "LEFT",
@@ -77,7 +77,7 @@ class ExerciseAnalyzer:
             b = landmark_to_point(landmarks, angle_spec.vertex)
             c = landmark_to_point(landmarks, angle_spec.point_c)
             if not visible_enough(a, b, c):
-                feedback.append(f"Can't see your {angle_spec.name.replace('_', ' ')} clearly — adjust the camera")
+                feedback.append(f"Can't see your {angle_spec.name.replace('_', ' ')} clearly - adjust the camera")
                 continue
             angles[angle_spec.name] = calculate_angle(a, b, c)
 
@@ -107,7 +107,7 @@ class ExerciseAnalyzer:
         if self.spec.hold_target_angle is not None:
             angle_value = angles.get(self.spec.hold_target_angle)
             if angle_value is not None and not (self.spec.hold_min_ok <= angle_value <= self.spec.hold_max_ok):
-                feedback.append("Straighten your body line — hips are sagging or piking up")
+                feedback.append("Straighten your body line - hips are sagging or piking up")
 
         self._draw_hud(annotated, angles, rep_count, hold_seconds, feedback)
 
