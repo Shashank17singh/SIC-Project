@@ -1,7 +1,7 @@
 """
 Pose landmark extraction and joint-angle geometry.
 
-Wraps MediaPipe's legacy Pose solution (mp.solutions.pose) — chosen over the
+Wraps MediaPipe's legacy Pose solution (mp.solutions.pose) - chosen over the
 newer Tasks API because it ships its own model weights (no external .task
 file to download at runtime), which keeps the app self-contained and easy
 to deploy on Streamlit Cloud.

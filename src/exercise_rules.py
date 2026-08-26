@@ -7,7 +7,7 @@ run. Adding a new exercise means adding a new EXERCISES entry, not touching
 the analyzer's control flow.
 
 All angles are computed in the 2D image plane from MediaPipe's normalized
-landmarks. This is a real limitation (see README > Limitations) — no true
+landmarks. This is a real limitation (see README > Limitations) - no true
 depth, so form errors that only show up from the side (e.g. rounded lower
 back) are only reliable when the camera is roughly perpendicular to the
 plane of motion.
@@ -39,7 +39,7 @@ class RepStage:
 
     shallow_below: if the primary angle never drops below this during the
     DOWN phase, the completed rep is flagged as shallow (e.g. a squat that
-    didn't go low enough). Optional — omit for exercises with no useful
+    didn't go low enough). Optional - omit for exercises with no useful
     "depth" notion (e.g. bicep curl)."""
     primary_angle: str
     down_below: float
@@ -93,13 +93,13 @@ def build_squat_spec(side: Side = "LEFT") -> ExerciseSpec:
         # down_below=100: crossing this enters the DOWN phase at all.
         # shallow_below=80: if the knee angle never drops below this during
         # the DOWN phase, the rep still counts but gets flagged as shallow
-        # (partial squat) — must be strictly less than down_below.
+        # (partial squat) - must be strictly less than down_below.
         rep_stage=RepStage(primary_angle="knee", down_below=100, up_above=160, shallow_below=80),
         form_checks=[
             FormCheck(
                 angle_name="hip_lean",
                 min_ok=45, max_ok=180,
-                message="Keep your chest up — you're leaning too far forward",
+                message="Keep your chest up - you're leaning too far forward",
                 active_stage="down",
             ),
         ],
@@ -119,7 +119,7 @@ def build_bicep_curl_spec(side: Side = "LEFT") -> ExerciseSpec:
             FormCheck(
                 angle_name="shoulder_swing",
                 min_ok=10, max_ok=180,
-                message="Keep your elbow tucked in — stop swinging your shoulder",
+                message="Keep your elbow tucked in - stop swinging your shoulder",
                 active_stage=None,
             ),
         ],
@@ -153,7 +153,7 @@ def build_push_up_spec(side: Side = "LEFT") -> ExerciseSpec:
             FormCheck(
                 angle_name="body_line",
                 min_ok=150, max_ok=180,
-                message="Keep your body straight — don't let your hips sag or pike up",
+                message="Keep your body straight - don't let your hips sag or pike up",
                 active_stage=None,
             ),
         ],
@@ -173,7 +173,7 @@ def build_lunge_spec(side: Side = "LEFT") -> ExerciseSpec:
             FormCheck(
                 angle_name="torso_lean",
                 min_ok=130, max_ok=180,
-                message="Keep your chest up — don't lean too far forward",
+                message="Keep your chest up - don't lean too far forward",
                 active_stage="down",
             ),
         ],
