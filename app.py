@@ -79,9 +79,8 @@ def main() -> None:
         )
     col_video, col_stats = st.columns([2, 1])
     with col_video:
-        streamer_key = f"posture-checker-{camera_facing}"
         ctx = webrtc_streamer(
-            key=streamer_key,
+            key="posture-checker",
             video_processor_factory=PostureVideoProcessor,
             rtc_configuration=RTC_CONFIGURATION,
             media_stream_constraints={
@@ -102,6 +101,7 @@ def main() -> None:
                 "autoPlay": True,
                 "playsinline": True,
             },
+            async_processing=True,
         )
     with col_stats:
         st.subheader("Live stats")
