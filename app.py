@@ -12,7 +12,18 @@ from src.analyzer import ExerciseAnalyzer
 from src.exercise_rules import EXERCISES
 st.set_page_config(page_title="AI Physiotherapy Posture Checker", layout="wide")
 RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+    {"iceServers": [
+        {"urls": ["stun:stun.l.google.com:19302"]},
+        {
+            "urls": [
+                "turn:openrelay.metered.ca:80",
+                "turn:openrelay.metered.ca:443",
+                "turn:openrelay.metered.ca:443?transport=tcp",
+            ],
+            "username": "openrelayproject",
+            "credential": "openrelayproject",
+        }
+    ]}
 )
 EXERCISE_LABELS = {
     "squat": "Squat",
