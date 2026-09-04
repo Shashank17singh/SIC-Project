@@ -67,7 +67,6 @@ def main() -> None:
             options=["LEFT", "RIGHT"],
             horizontal=True,
         )
-        camera_facing = st.radio("Camera", ["Front", "Back"], horizontal=True)
         st.divider()
         st.markdown(
             "**Camera tip:** stand side-on to the camera (sagittal view) so the "
@@ -85,9 +84,9 @@ def main() -> None:
             rtc_configuration=RTC_CONFIGURATION,
             media_stream_constraints={
                 "video": {
-                    "facingMode": "user" if camera_facing == "Front" else "environment",
+                    "facingMode": "user",
                     "width": {"ideal": 1920},
-                    "height": {"ideal": 1080},
+                    "height": {"ideal": 1920},
                 },
                 "audio": False,
             },
