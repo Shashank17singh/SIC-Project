@@ -85,8 +85,9 @@ def main() -> None:
             media_stream_constraints={
                 "video": {
                     "facingMode": "user",
-                    "width": {"ideal": 1920},
-                    "height": {"ideal": 1920},
+                    "width": {"ideal": 1280},
+                    "height": {"ideal": 720},
+                    "frameRate": {"ideal": 15, "max": 20},
                 },
                 "audio": False,
             },
@@ -96,7 +97,7 @@ def main() -> None:
                     "margin": "0 auto",
                     "border": "5px solid yellow",
                 },
-                "controls": False,
+                "controls": True,
                 "autoPlay": True,
                 "playsinline": True,
             },
