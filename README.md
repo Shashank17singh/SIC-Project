@@ -121,8 +121,8 @@ Streamlit sidebar (live stats) + on-frame overlay
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Shashank17singh/posture-checker.git
-cd posture-checker
+git clone https://github.com/Shashank17singh/SIC-Project.git
+cd SIC-Project
 ```
 
 ### 2. Create a virtual environment and install dependencies
