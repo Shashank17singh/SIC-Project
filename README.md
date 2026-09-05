@@ -18,8 +18,7 @@
 Points a browser webcam at MediaPipe's pose-landmark model, converts the
 landmarks into joint angles (knee, hip, elbow, shoulder), and runs each
 angle stream through a small per-exercise rule set: a 2-state machine for
-rep counting (squat, bicep curl) and a hold-timer for isometric holds
-(plank), plus threshold-based form checks (leaning too far forward,
+rep counting (squat, push-up), plus threshold-based form checks (leaning too far forward,
 elbow swinging away from the torso, hips sagging).
 
 No exercise-classification model, no dataset to collect or label - the
@@ -70,7 +69,6 @@ graph TD
 |  **Rep Counting** | 2-state machine per exercise, driven by one primary joint angle (e.g. knee angle for squats) |
 |  **Shallow-Rep Detection** | Tracks the minimum angle reached during the "down" phase - flags reps that didn't reach full depth |
 |  **Live Form Feedback** | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as on-screen overlay + sidebar warnings |
-|  **Hold Timer** | Plank uses a body-line-angle hold timer instead of rep counting |
 |  **Browser Webcam, No Server Camera** | `streamlit-webrtc` streams frames from the browser's `getUserMedia`, so it deploys on Streamlit Community Cloud without needing a camera on the server |
 |  **Testable Core Logic** | Angle math and rep/hold state machines are pure functions with no MediaPipe or webcam dependency - unit tested in isolation |
 
@@ -98,7 +96,7 @@ PostureVideoProcessor.recv()  (app.py)
 ExerciseAnalyzer.process()  (src/analyzer.py)
    │  1. pose_utils.py      → MediaPipe landmark extraction + angle geometry
    │  2. exercise_rules.py  → declarative per-exercise spec (angles, thresholds, rep stages)
-   │  3. rep_counter.py     → RepCounterState (squat/curl) or HoldTimerState (plank)
+   │  3. rep_counter.py     → RepCounterState (squat/push-up)
    ▼
 Annotated frame + feedback list + rep count / hold time
    ▼
@@ -157,7 +155,7 @@ pytest tests/ -v
 - Stand **side-on** to the camera (sagittal view) - the joint angles this
   app checks (knee, hip, elbow) are only meaningful from a side angle, not
   face-on.
-- Make sure your full body (or full arm, for curls) is in frame - the app
+- Make sure your full body is in frame - the app
   will tell you when a needed landmark isn't visible enough rather than
   silently guessing.
 - Good, consistent lighting matters more than camera resolution for
@@ -180,15 +178,15 @@ pytest tests/ -v
   geometric rules - it does not diagnose injury risk and isn't a
   substitute for in-person physiotherapist supervision.
 - **Single person, single exercise at a time.** No multi-person tracking
-  or automatic exercise detection (the user selects the exercise from a
-  dropdown).
+  or automatic exercise detection (the user selects the exercise from
+  radio buttons).
 
 ---
 
 ##  Future Work
 
 - Automatic exercise recognition (classify which exercise is being
-  performed instead of a manual dropdown).
+  performed instead of manual radio button selection).
 - Per-user threshold calibration from a short calibration set.
 - Session history / progress tracking across workouts (ties into the
   "Stroke Rehabilitation Progress Tracker" idea from the same project
