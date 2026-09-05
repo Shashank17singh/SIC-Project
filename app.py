@@ -27,10 +27,7 @@ RTC_CONFIGURATION = RTCConfiguration(
 )
 EXERCISE_LABELS = {
     "squat": "Squat",
-    "bicep_curl": "Bicep Curl",
-    "plank": "Plank (hold)",
     "push_up": "Push-up",
-    "lunge": "Lunge",
 }
 class PostureVideoProcessor(VideoProcessorBase):
     """Bridges streamlit-webrtc's frame callback to our ExerciseAnalyzer.
@@ -68,7 +65,7 @@ def main() -> None:
     )
     with st.sidebar:
         st.header("Settings")
-        exercise_key = st.selectbox(
+        exercise_key = st.radio(
             "Exercise",
             options=list(EXERCISE_LABELS.keys()),
             format_func=lambda k: EXERCISE_LABELS[k],
