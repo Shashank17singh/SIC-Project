@@ -15,7 +15,7 @@
 
 ##  Overview
 
-Points a browser webcam at MediaPipe's pose-landmark model, converts the
+Developed as part of SIC course curriculum, this project points a browser webcam at MediaPipe's pose-landmark model, converts the
 landmarks into joint angles (knee, hip, elbow, shoulder), and runs each
 angle stream through a small per-exercise rule set: a 2-state machine for
 rep counting (squat, push-up), plus threshold-based form checks (leaning too far forward,
