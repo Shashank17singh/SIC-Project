@@ -1,6 +1,6 @@
 <div align="center">
 
-#  AI-Based Physiotherapy Posture Checker
+# AI-Based Physiotherapy Posture Checker
 
 **Real-time exercise form feedback using pose estimation - counts reps, flags shallow reps, and calls out common form errors as they happen**
 
@@ -199,3 +199,9 @@ pytest tests/ -v
 ##  License
 
 MIT
+
+
+---
+
+## Deployment
+- **Dashboard URL:** https://sic-project.streamlit.app/
