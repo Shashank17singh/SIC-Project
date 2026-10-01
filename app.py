@@ -5,6 +5,7 @@ and frames are streamed to this server over WebRTC - this is what makes it
 deployable on Streamlit Community Cloud, where the server itself has no
 camera and cv2.VideoCapture(0) would fail.
 """
+import cv2
 import av
 import streamlit as st
 from streamlit_webrtc import RTCConfiguration, VideoProcessorBase, webrtc_streamer
@@ -130,6 +131,7 @@ class PostureVideoProcessor(VideoProcessorBase):
         """Processes each incoming video frame through the ExerciseAnalyzer."""
         try:
             img = frame.to_ndarray(format="bgr24")
+            img = cv2.flip(img, 1)
             result = self.analyzer.process(img)
             self.last_feedback = result.feedback
             self.last_rep_count = result.rep_count
