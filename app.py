@@ -131,6 +131,7 @@ class PostureVideoProcessor(VideoProcessorBase):
         """Processes each incoming video frame through the ExerciseAnalyzer."""
         try:
             img = frame.to_ndarray(format="bgr24")
+            img = cv2.flip(img, 1) # Mirror the image here so HUD is drawn normally
             result = self.analyzer.process(img)
             self.last_feedback = result.feedback
             self.last_rep_count = result.rep_count
@@ -189,7 +190,6 @@ def main() -> None:
                     "width": "100%",
                     "margin": "0 auto",
                     "border": "5px solid yellow",
-                    "transform": "scaleX(-1)",
                 },
                 "controls": True,
                 "autoPlay": True,
@@ -202,7 +202,10 @@ def main() -> None:
         stats_placeholder = st.empty()
         feedback_placeholder = st.empty()
         if ctx.video_processor:
-            ctx.video_processor.set_exercise(exercise_key, side)
+            # Since we flip the video feed to mirror it for the user, MediaPipe sees the body mirrored.
+            # We must swap the requested side to tell the analyzer to track the correct physical limbs.
+            mirrored_side = "RIGHT" if side == "LEFT" else "LEFT"
+            ctx.video_processor.set_exercise(exercise_key, mirrored_side)
             vp = ctx.video_processor
             if vp.last_rep_count is not None:
                 stats_placeholder.metric("Reps", vp.last_rep_count)
