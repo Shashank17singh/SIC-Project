@@ -13,7 +13,7 @@
 
 ---
 
-##  Overview
+## Overview
 
 Developed a web application that points a browser webcam at MediaPipe's pose-landmark model, converts the
 landmarks into joint angles (knee, hip, elbow, shoulder), and runs each
@@ -28,9 +28,7 @@ explainable (you can point at the exact angle and threshold that fired).
 
 ---
 
-
-
-###  Computer Vision Pipeline
+### Computer Vision Pipeline
 
 ```mermaid
 graph TD
@@ -38,13 +36,13 @@ graph TD
     A[Browser Webcam] -->|streamlit-webrtc| B(Video Frame)
     H[Live Feedback Overlay] --> A
     end
-    
+
     subgraph "Pose Estimation Engine"
     B --> C{MediaPipe Pose Model}
     C -->|33 Body Landmarks| D[Joint Angle Calculator]
     D --> E(Knee, Hip, Elbow, Shoulder Angles)
     end
-    
+
     subgraph "Rules Engine"
     E --> F{Finite State Machine}
     F -->|Depth Check| G[Rep Counter]
@@ -52,29 +50,29 @@ graph TD
     G --> H
     I --> H
     end
-    
+
     classDef io fill:#f9f0ff,stroke:#8a2be2,stroke-width:2px,color:#000;
     classDef core fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000;
     classDef logic fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000;
-    
+
     class A,H,B io;
     class C,D,E core;
     class F,G,I logic;
 ```
 
-##  Features
+## Features
 
-| | |
-|---|---|
-|  **Rep Counting** | 2-state machine per exercise, driven by one primary joint angle (e.g. knee angle for squats) |
-|  **Shallow-Rep Detection** | Tracks the minimum angle reached during the "down" phase - flags reps that didn't reach full depth |
-|  **Live Form Feedback** | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as on-screen overlay + sidebar warnings |
-|  **Browser Webcam, No Server Camera** | `streamlit-webrtc` streams frames from the browser's `getUserMedia`, so it deploys on Streamlit Community Cloud without needing a camera on the server |
-|  **Testable Core Logic** | Angle math and rep/hold state machines are pure functions with no MediaPipe or webcam dependency - unit tested in isolation |
+|                                      |                                                                                                                                                        |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Rep Counting**                     | 2-state machine per exercise, driven by one primary joint angle (e.g. knee angle for squats)                                                           |
+| **Shallow-Rep Detection**            | Tracks the minimum angle reached during the "down" phase - flags reps that didn't reach full depth                                                     |
+| **Live Form Feedback**               | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as on-screen overlay + sidebar warnings                           |
+| **Browser Webcam, No Server Camera** | `streamlit-webrtc` streams frames from the browser's `getUserMedia`, so it deploys on Streamlit Community Cloud without needing a camera on the server |
+| **Testable Core Logic**              | Angle math and rep/hold state machines are pure functions with no MediaPipe or webcam dependency - unit tested in isolation                            |
 
 ---
 
-##  Tech Stack
+## Tech Stack
 
 **Language** - Python 3.x
 **Pose Estimation** - MediaPipe Pose (legacy `solutions` API, pinned to `0.10.14`)
@@ -84,7 +82,7 @@ graph TD
 
 ---
 
-##  Architecture Overview
+## Architecture Overview
 
 ```
 Browser webcam (getUserMedia)
@@ -104,6 +102,7 @@ Streamlit sidebar (live stats) + on-frame overlay
 ```
 
 **Design choices:**
+
 - **Declarative exercise specs, not per-exercise branching code.** Adding a
   new exercise means adding one `ExerciseSpec` to `exercise_rules.py` - the
   analyzer's control flow doesn't change.
@@ -116,7 +115,7 @@ Streamlit sidebar (live stats) + on-frame overlay
 
 ---
 
-##  Setup and Installation
+## Setup and Installation
 
 ### 1. Clone the repository
 
@@ -150,7 +149,7 @@ pytest tests/ -v
 
 ---
 
-##  Usage Tips
+## Usage Tips
 
 - Stand **side-on** to the camera (sagittal view) - the joint angles this
   app checks (knee, hip, elbow) are only meaningful from a side angle, not
@@ -163,7 +162,7 @@ pytest tests/ -v
 
 ---
 
-##  Limitations
+## Limitations
 
 - **2D angles only.** MediaPipe Pose here runs on a single RGB frame with
   no depth sensor, so angles are computed in the image plane. A camera
@@ -183,7 +182,7 @@ pytest tests/ -v
 
 ---
 
-##  Future Work
+## Future Work
 
 - Automatic exercise recognition (classify which exercise is being
   performed instead of manual radio button selection).
@@ -196,29 +195,28 @@ pytest tests/ -v
 
 ---
 
-##  License
+## License
 
 MIT
-
 
 ---
 
 ## Deployment
+
 - **Dashboard URL:** https://sic-project.streamlit.app/
 
-
---- 
+---
 
 ## Deep Codebase Analysis
 
-| File | Purpose / Details |
-|---|---|
-| `app.py` | AI Physiotherapy Posture Checker - Streamlit front end. |
-| `packages.txt` | Core component logic and implementation details. |
-| `requirements.txt` | Core component logic and implementation details. |
-| `src\__init__.py` | Core component logic and implementation details. |
-| `src\analyzer.py` | Ties everything together: takes a raw BGR frame, runs MediaPipe pose |
-| `src\exercise_rules.py` | Per-exercise rule definitions. |
-| `src\pose_utils.py` | Pose landmark extraction and joint-angle geometry. |
-| `src\rep_counter.py` | State machines for turning a stream of per-frame angles into rep counts |
-| `tests\test_angles.py` | Unit tests for the pure geometry (no webcam, no MediaPipe model inference). |
+| File                    | Purpose / Details                                                           |
+| ----------------------- | --------------------------------------------------------------------------- |
+| `app.py`                | AI Physiotherapy Posture Checker - Streamlit front end.                     |
+| `packages.txt`          | Core component logic and implementation details.                            |
+| `requirements.txt`      | Core component logic and implementation details.                            |
+| `src\__init__.py`       | Core component logic and implementation details.                            |
+| `src\analyzer.py`       | Ties everything together: takes a raw BGR frame, runs MediaPipe pose        |
+| `src\exercise_rules.py` | Per-exercise rule definitions.                                              |
+| `src\pose_utils.py`     | Pose landmark extraction and joint-angle geometry.                          |
+| `src\rep_counter.py`    | State machines for turning a stream of per-frame angles into rep counts     |
+| `tests\test_angles.py`  | Unit tests for the pure geometry (no webcam, no MediaPipe model inference). |
