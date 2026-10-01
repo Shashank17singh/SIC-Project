@@ -7,10 +7,15 @@ and is easy to tune per-exercise by eye from a few test videos. See
 README > Future Work for where an ML-based rep segmentation model would
 plug in.
 """
+
 from __future__ import annotations
+
 import time
 from dataclasses import dataclass, field
+
 from src.exercise_rules import ExerciseSpec
+
+
 @dataclass
 class RepCounterState:
     stage: str = "up"  # "up" | "down"
@@ -40,6 +45,8 @@ class RepCounterState:
                 and self._min_angle_this_rep > shallow_threshold
             )
             self._min_angle_this_rep = 180.0
+
+
 @dataclass
 class HoldTimerState:
     hold_start: float | None = None

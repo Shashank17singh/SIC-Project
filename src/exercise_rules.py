@@ -10,18 +10,27 @@ depth, so form errors that only show up from the side (e.g. rounded lower
 back) are only reliable when the camera is roughly perpendicular to the
 plane of motion.
 """
+
 from __future__ import annotations
+
 from dataclasses import dataclass, field
+
 from src.pose_utils import Landmark
+
 Side = str  # "LEFT" or "RIGHT"
+
+
 @dataclass(frozen=True)
 class AngleSpec:
     """Defines one angle to compute each frame: angle at `vertex`, formed by
     rays toward `point_a` and `point_c`."""
+
     name: str
     point_a: Landmark
     vertex: Landmark
     point_c: Landmark
+
+
 @dataclass(frozen=True)
 class RepStage:
     """Rep counting is a simple 2-state machine driven by one primary angle:
@@ -30,20 +39,26 @@ class RepStage:
     DOWN phase, the completed rep is flagged as shallow (e.g. a squat that
     didn't go low enough). Optional - omit for exercises with no useful
     "depth" notion (e.g. bicep curl)."""
+
     primary_angle: str
     down_below: float
     up_above: float
     shallow_below: float | None = None
+
+
 @dataclass(frozen=True)
 class FormCheck:
     """A single form-error rule: if `angle_name` falls outside
     [min_ok, max_ok] (only checked while in `active_stage`, or always if
     active_stage is None), show `message`."""
+
     angle_name: str
     min_ok: float
     max_ok: float
     message: str
     active_stage: str | None = None
+
+
 @dataclass(frozen=True)
 class ExerciseSpec:
     display_name: str
@@ -53,6 +68,8 @@ class ExerciseSpec:
     hold_target_angle: str | None = None
     hold_min_ok: float | None = None
     hold_max_ok: float | None = None
+
+
 def _side_angles(side: Side) -> dict:
     """Helper to get MediaPipe landmark enums for a specific side."""
     L = Landmark
@@ -66,6 +83,8 @@ def _side_angles(side: Side) -> dict:
     return dict(
         hip=hip, knee=knee, ankle=ankle, shoulder=shoulder, elbow=elbow, wrist=wrist
     )
+
+
 def build_squat_spec(side: Side = "LEFT") -> ExerciseSpec:
     """Returns the rules and form checks for a Squat."""
     j = _side_angles(side)
@@ -88,6 +107,8 @@ def build_squat_spec(side: Side = "LEFT") -> ExerciseSpec:
             ),
         ],
     )
+
+
 def build_bicep_curl_spec(side: Side = "LEFT") -> ExerciseSpec:
     """Returns the rules and form checks for a Bicep Curl."""
     j = _side_angles(side)
@@ -108,6 +129,8 @@ def build_bicep_curl_spec(side: Side = "LEFT") -> ExerciseSpec:
             ),
         ],
     )
+
+
 def build_plank_spec(side: Side = "LEFT") -> ExerciseSpec:
     """Returns the rules and form checks for a Plank."""
     j = _side_angles(side)
@@ -121,6 +144,8 @@ def build_plank_spec(side: Side = "LEFT") -> ExerciseSpec:
         hold_min_ok=160,
         hold_max_ok=180,
     )
+
+
 def build_push_up_spec(side: Side = "LEFT") -> ExerciseSpec:
     """Returns the rules and form checks for a Push-up."""
     j = _side_angles(side)
@@ -143,6 +168,8 @@ def build_push_up_spec(side: Side = "LEFT") -> ExerciseSpec:
             ),
         ],
     )
+
+
 def build_lunge_spec(side: Side = "LEFT") -> ExerciseSpec:
     """Returns the rules and form checks for a Lunge."""
     j = _side_angles(side)
@@ -165,6 +192,8 @@ def build_lunge_spec(side: Side = "LEFT") -> ExerciseSpec:
             ),
         ],
     )
+
+
 EXERCISES = {
     "squat": build_squat_spec,
     "bicep_curl": build_bicep_curl_spec,

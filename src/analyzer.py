@@ -6,10 +6,14 @@ This is the single entry point the Streamlit app calls per frame - it does
 not know about Streamlit, webcam I/O, or UI at all, which keeps it unit
 testable (see tests/test_angles.py) independent of any of that.
 """
+
 from __future__ import annotations
+
 from dataclasses import dataclass, field
+
 import cv2
 import mediapipe as mp
+
 from src.exercise_rules import EXERCISES, ExerciseSpec
 from src.pose_utils import calculate_angle, landmark_to_point, mp_pose, visible_enough
 from src.rep_counter import HoldTimerState, RepCounterState
@@ -19,7 +23,7 @@ mp_drawing = mp.solutions.drawing_utils
 
 @dataclass
 class FrameResult:
-    annotated_frame: "cv2.Mat"
+    annotated_frame: cv2.Mat
     pose_detected: bool
     angles: dict[str, float] = field(default_factory=dict)
     feedback: list[str] = field(default_factory=list)
@@ -32,6 +36,7 @@ class ExerciseAnalyzer:
     """One instance per active session/exercise choice. Holds the MediaPipe
     Pose model and the rep/hold state across frames - do not share a single
     instance across two different live sessions."""
+
     def __init__(
         self,
         exercise_key: str,

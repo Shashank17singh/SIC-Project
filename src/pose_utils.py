@@ -8,24 +8,33 @@ NOTE: mp.solutions.pose requires mediapipe<=0.10.14 (the legacy `solutions`
 namespace was dropped in later releases in favor of the Tasks API). Pin the
 version in requirements.txt.
 """
+
 from __future__ import annotations
-import math
+
 from dataclasses import dataclass
+
 import mediapipe as mp
 import numpy as np
+
 mp_pose = mp.solutions.pose
 Landmark = mp_pose.PoseLandmark
+
+
 @dataclass(frozen=True)
 class Point2D:
     x: float
     y: float
     visibility: float = 1.0
+
+
 def landmark_to_point(landmarks, name: Landmark) -> Point2D:
     """Pull a single named landmark out of MediaPipe's result and normalize
     it into our own Point2D so the rest of the code doesn't depend on
     MediaPipe's protobuf types directly."""
     lm = landmarks[name.value]
     return Point2D(x=lm.x, y=lm.y, visibility=lm.visibility)
+
+
 def calculate_angle(a: Point2D, b: Point2D, c: Point2D) -> float:
     """Angle at vertex `b`, formed by rays b->a and b->c, in degrees [0, 180].
     This is the core primitive every exercise rule is built on: e.g. the
@@ -43,11 +52,15 @@ def calculate_angle(a: Point2D, b: Point2D, c: Point2D) -> float:
     cosine_angle = np.dot(ba, bc) / (norm_ba * norm_bc)
     cosine_angle = np.clip(cosine_angle, -1.0, 1.0)
     return float(np.degrees(np.arccos(cosine_angle)))
+
+
 def visible_enough(*points: Point2D, threshold: float = 0.5) -> bool:
     """MediaPipe reports a per-landmark visibility/confidence score. If a
     joint needed for the current rule is occluded or off-frame, we should
     say so rather than silently emitting a garbage angle."""
     return all(p.visibility >= threshold for p in points)
+
+
 def pixel_coords(
     point: Point2D, frame_width: int, frame_height: int
 ) -> tuple[int, int]:

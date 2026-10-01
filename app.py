@@ -5,12 +5,13 @@ and frames are streamed to this server over WebRTC - this is what makes it
 deployable on Streamlit Community Cloud, where the server itself has no
 camera and cv2.VideoCapture(0) would fail.
 """
-import cv2
+
 import av
+import cv2
 import streamlit as st
 from streamlit_webrtc import RTCConfiguration, VideoProcessorBase, webrtc_streamer
+
 from src.analyzer import ExerciseAnalyzer
-from src.exercise_rules import EXERCISES
 
 st.set_page_config(page_title="AI Physiotherapy Posture Checker", layout="wide")
 
@@ -84,18 +85,20 @@ h1, h2, h3, h4, h5, h6 {
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [
-        {"urls": ["stun:stun.l.google.com:19302"]},
-        {
-            "urls": [
-                "turn:openrelay.metered.ca:80",
-                "turn:openrelay.metered.ca:443",
-                "turn:openrelay.metered.ca:443?transport=tcp",
-            ],
-            "username": "openrelayproject",
-            "credential": "openrelayproject",
-        }
-    ]}
+    {
+        "iceServers": [
+            {"urls": ["stun:stun.l.google.com:19302"]},
+            {
+                "urls": [
+                    "turn:openrelay.metered.ca:80",
+                    "turn:openrelay.metered.ca:443",
+                    "turn:openrelay.metered.ca:443?transport=tcp",
+                ],
+                "username": "openrelayproject",
+                "credential": "openrelayproject",
+            },
+        ]
+    }
 )
 
 EXERCISE_LABELS = {
@@ -110,6 +113,7 @@ class PostureVideoProcessor(VideoProcessorBase):
     thread, so results are stashed on `self` and read back on the main
     thread via `st.session_state.processor` on each Streamlit rerun.
     """
+
     def __init__(self) -> None:
         self.exercise_key = "squat"
         self.side = "LEFT"
@@ -141,8 +145,11 @@ class PostureVideoProcessor(VideoProcessorBase):
         except Exception as e:
             print(f"Error in recv: {e}")
             err_img = frame.to_ndarray(format="bgr24")
-            cv2.putText(err_img, str(e), (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+            cv2.putText(
+                err_img, str(e), (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2
+            )
             return av.VideoFrame.from_ndarray(err_img, format="bgr24")
+
 
 def main() -> None:
     """Main application entry point for the Streamlit UI."""
