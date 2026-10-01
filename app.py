@@ -131,7 +131,6 @@ class PostureVideoProcessor(VideoProcessorBase):
         """Processes each incoming video frame through the ExerciseAnalyzer."""
         try:
             img = frame.to_ndarray(format="bgr24")
-            img = cv2.flip(img, 1)
             result = self.analyzer.process(img)
             self.last_feedback = result.feedback
             self.last_rep_count = result.rep_count
@@ -190,6 +189,7 @@ def main() -> None:
                     "width": "100%",
                     "margin": "0 auto",
                     "border": "5px solid yellow",
+                    "transform": "scaleX(-1)",
                 },
                 "controls": True,
                 "autoPlay": True,
