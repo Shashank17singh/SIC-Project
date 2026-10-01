@@ -75,7 +75,6 @@ def build_squat_spec(side: Side = "LEFT") -> ExerciseSpec:
             AngleSpec("knee", j["hip"], j["knee"], j["ankle"]),
             AngleSpec("hip_lean", j["shoulder"], j["hip"], j["knee"]),
         ],
-        # (partial squat) - must be strictly less than down_below.
         rep_stage=RepStage(
             primary_angle="knee", down_below=100, up_above=160, shallow_below=80
         ),
