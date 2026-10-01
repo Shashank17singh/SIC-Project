@@ -24,6 +24,7 @@ class FrameResult:
     angles: dict[str, float] = field(default_factory=dict)
     feedback: list[str] = field(default_factory=list)
     rep_count: int | None = None
+    hold_seconds: float | None = None
     last_rep_shallow: bool = False
 
 
