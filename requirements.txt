@@ -1,7 +1,6 @@
 
 mediapipe==0.10.14
 protobuf<5
-opencv-contrib-python-headless>=4.9,<5
 numpy>=1.26,<3
 streamlit>=1.38
 streamlit-webrtc>=0.47
