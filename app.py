@@ -131,7 +131,7 @@ class PostureVideoProcessor(VideoProcessorBase):
         """Processes each incoming video frame through the ExerciseAnalyzer."""
         try:
             img = frame.to_ndarray(format="bgr24")
-            img = cv2.flip(img, 1) # Mirror the image here so HUD is drawn normally
+            img = cv2.flip(img, 1)
             result = self.analyzer.process(img)
             self.last_feedback = result.feedback
             self.last_rep_count = result.rep_count
@@ -140,7 +140,9 @@ class PostureVideoProcessor(VideoProcessorBase):
             return av.VideoFrame.from_ndarray(result.annotated_frame, format="bgr24")
         except Exception as e:
             print(f"Error in recv: {e}")
-            return frame
+            err_img = frame.to_ndarray(format="bgr24")
+            cv2.putText(err_img, str(e), (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+            return av.VideoFrame.from_ndarray(err_img, format="bgr24")
 
 def main() -> None:
     """Main application entry point for the Streamlit UI."""
