@@ -17,7 +17,9 @@ class RepCounterState:
     rep_count: int = 0
     last_rep_shallow: bool = False
     _min_angle_this_rep: float = field(default=180.0, repr=False)
+
     def update(self, spec: ExerciseSpec, angles: dict[str, float]) -> None:
+        """Updates the rep count state machine based on current frame angles."""
         if spec.rep_stage is None:
             return
         primary = angles.get(spec.rep_stage.primary_angle)
@@ -43,7 +45,9 @@ class HoldTimerState:
     hold_start: float | None = None
     total_hold_seconds: float = 0.0
     in_good_form: bool = False
+
     def update(self, spec: ExerciseSpec, angles: dict[str, float]) -> None:
+        """Updates the hold timer based on whether the target angle is in good form."""
         if spec.hold_target_angle is None:
             return
         angle = angles.get(spec.hold_target_angle)
@@ -61,7 +65,9 @@ class HoldTimerState:
         elif not good:
             self.hold_start = None
         self.in_good_form = good
+
     def current_hold_seconds(self) -> float:
+        """Returns the total cumulative time spent holding the exercise in good form."""
         if self.in_good_form and self.hold_start is not None:
             return self.total_hold_seconds + (time.monotonic() - self.hold_start)
         return self.total_hold_seconds
