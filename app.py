@@ -177,9 +177,9 @@ def main() -> None:
             media_stream_constraints={
                 "video": {
                     "facingMode": "user",
-                    "width": {"ideal": 1280},
-                    "height": {"ideal": 720},
-                    "frameRate": {"ideal": 15, "max": 20},
+                    "width": {"ideal": 640},
+                    "height": {"ideal": 480},
+                    "frameRate": {"ideal": 15, "max": 30},
                 },
                 "audio": False,
             },
