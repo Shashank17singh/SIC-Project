@@ -128,14 +128,17 @@ class PostureVideoProcessor(VideoProcessorBase):
 
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         """Processes each incoming video frame through the ExerciseAnalyzer."""
-        img = frame.to_ndarray(format="bgr24")
-        result = self.analyzer.process(img)
-        self.last_feedback = result.feedback
-        self.last_rep_count = result.rep_count
-        self.last_hold_seconds = result.hold_seconds
-        self.last_rep_shallow = result.last_rep_shallow
-        return av.VideoFrame.from_ndarray(result.annotated_frame, format="bgr24")
-
+        try:
+            img = frame.to_ndarray(format="bgr24")
+            result = self.analyzer.process(img)
+            self.last_feedback = result.feedback
+            self.last_rep_count = result.rep_count
+            self.last_hold_seconds = result.hold_seconds
+            self.last_rep_shallow = result.last_rep_shallow
+            return av.VideoFrame.from_ndarray(result.annotated_frame, format="bgr24")
+        except Exception as e:
+            print(f"Error in recv: {e}")
+            return frame
 
 def main() -> None:
     """Main application entry point for the Streamlit UI."""
@@ -190,7 +193,7 @@ def main() -> None:
                 "autoPlay": True,
                 "playsinline": True,
             },
-            async_processing=True,
+            async_processing=False,
         )
     with col_stats:
         st.subheader("Live stats")
