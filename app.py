@@ -12,6 +12,76 @@ from src.analyzer import ExerciseAnalyzer
 from src.exercise_rules import EXERCISES
 
 st.set_page_config(page_title="AI Physiotherapy Posture Checker", layout="wide")
+
+CUSTOM_CSS = """
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;700&display=swap');
+
+html, body, [class*="css"]  {
+    font-family: 'Noto Sans', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Figtree', sans-serif !important;
+    color: #0891B2 !important;
+}
+
+.stApp {
+    background-color: #ECFEFF;
+    color: #164E63;
+}
+
+[data-testid="stHeader"] {
+    background-color: rgba(236,254,255,0.9) !important;
+}
+
+/* Neumorphism Buttons */
+.stButton > button {
+    background-color: #ECFEFF;
+    color: #0891B2;
+    font-family: 'Figtree', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 6px 6px 12px #BFE1E3, -6px -6px 12px #FFFFFF;
+    transition: all 0.2s ease;
+}
+
+.stButton > button:hover {
+    color: #059669;
+    box-shadow: 4px 4px 8px #BFE1E3, -4px -4px 8px #FFFFFF;
+}
+
+.stButton > button:active {
+    box-shadow: inset 6px 6px 12px #BFE1E3, inset -6px -6px 12px #FFFFFF;
+    color: #059669;
+}
+
+/* Containers */
+[data-testid="stExpander"], [data-testid="stVerticalBlock"] > div > div > div[data-testid="stContainer"] {
+    background-color: #ECFEFF;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 6px 6px 12px #BFE1E3, -6px -6px 12px #FFFFFF;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+.stSelectbox > div > div > div {
+    background-color: #ECFEFF;
+    border: none;
+    border-radius: 8px;
+    color: #164E63;
+    box-shadow: inset 4px 4px 8px #BFE1E3, inset -4px -4px 8px #FFFFFF;
+}
+.stSelectbox > div > div > div:focus {
+    box-shadow: inset 6px 6px 12px #BFE1E3, inset -6px -6px 12px #FFFFFF;
+}
+</style>
+"""
+st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [
         {"urls": ["stun:stun.l.google.com:19302"]},
