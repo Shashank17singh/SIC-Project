@@ -13,7 +13,10 @@ import mediapipe as mp
 from src.exercise_rules import EXERCISES, ExerciseSpec
 from src.pose_utils import calculate_angle, landmark_to_point, mp_pose, visible_enough
 from src.rep_counter import HoldTimerState, RepCounterState
+
 mp_drawing = mp.solutions.drawing_utils
+
+
 @dataclass
 class FrameResult:
     annotated_frame: "cv2.Mat"
@@ -21,8 +24,9 @@ class FrameResult:
     angles: dict[str, float] = field(default_factory=dict)
     feedback: list[str] = field(default_factory=list)
     rep_count: int | None = None
-    hold_seconds: float | None = None
     last_rep_shallow: bool = False
+
+
 class ExerciseAnalyzer:
     """One instance per active session/exercise choice. Holds the MediaPipe
     Pose model and the rep/hold state across frames - do not share a single
@@ -45,9 +49,13 @@ class ExerciseAnalyzer:
         )
         self.rep_state = RepCounterState()
         self.hold_state = HoldTimerState()
+
     def close(self) -> None:
+        """Closes the MediaPipe pose instance to free up resources."""
         self.pose.close()
+
     def process(self, frame_bgr) -> FrameResult:
+        """Processes a single BGR frame, calculates angles, checks form, and annotates the frame."""
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
         frame_rgb.flags.writeable = False
         results = self.pose.process(frame_rgb)
@@ -118,8 +126,10 @@ class ExerciseAnalyzer:
             hold_seconds=hold_seconds,
             last_rep_shallow=last_rep_shallow,
         )
+
     @staticmethod
     def _draw_hud(frame, angles, rep_count, hold_seconds, feedback) -> None:
+        """Draws the heads-up display (HUD) on the video frame showing reps, hold times, and feedback."""
         y = 30
         if rep_count is not None:
             cv2.putText(

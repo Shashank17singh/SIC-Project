@@ -10,6 +10,7 @@ import streamlit as st
 from streamlit_webrtc import RTCConfiguration, VideoProcessorBase, webrtc_streamer
 from src.analyzer import ExerciseAnalyzer
 from src.exercise_rules import EXERCISES
+
 st.set_page_config(page_title="AI Physiotherapy Posture Checker", layout="wide")
 RTC_CONFIGURATION = RTCConfiguration(
     {"iceServers": [
@@ -25,10 +26,13 @@ RTC_CONFIGURATION = RTCConfiguration(
         }
     ]}
 )
+
 EXERCISE_LABELS = {
     "squat": "Squat",
     "push_up": "Push-up",
 }
+
+
 class PostureVideoProcessor(VideoProcessorBase):
     """Bridges streamlit-webrtc's frame callback to our ExerciseAnalyzer.
     st.session_state isn't safely writable from inside the WebRTC callback
@@ -43,13 +47,17 @@ class PostureVideoProcessor(VideoProcessorBase):
         self.last_rep_count: int | None = None
         self.last_hold_seconds: float | None = None
         self.last_rep_shallow: bool = False
+
     def set_exercise(self, exercise_key: str, side: str) -> None:
+        """Updates the current exercise and re-initializes the analyzer."""
         if exercise_key != self.exercise_key or side != self.side:
             self.analyzer.close()
             self.exercise_key = exercise_key
             self.side = side
             self.analyzer = ExerciseAnalyzer(exercise_key, side)
+
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
+        """Processes each incoming video frame through the ExerciseAnalyzer."""
         img = frame.to_ndarray(format="bgr24")
         result = self.analyzer.process(img)
         self.last_feedback = result.feedback
@@ -57,7 +65,10 @@ class PostureVideoProcessor(VideoProcessorBase):
         self.last_hold_seconds = result.hold_seconds
         self.last_rep_shallow = result.last_rep_shallow
         return av.VideoFrame.from_ndarray(result.annotated_frame, format="bgr24")
+
+
 def main() -> None:
+    """Main application entry point for the Streamlit UI."""
     st.title("AI-Based Physiotherapy Posture Checker")
     st.caption(
         "Real-time pose estimation (MediaPipe) checks exercise form and counts reps - "
@@ -130,5 +141,7 @@ def main() -> None:
                 feedback_placeholder.success("Form looks good")
         else:
             st.info("Click **Start** on the video panel to begin.")
+
+
 if __name__ == "__main__":
     main()
