@@ -1,231 +1,287 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Architecture - SIC-Project</title>
-              <meta name="color-scheme" content="dark">
-  <meta name="darkreader-lock">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Geist+Mono&family=Geist:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap');
-    
-    :root {
-      color-scheme: dark;
-      --bg-body: #050505;
-      --bg-container: #0a0a0a;
-      --node-fill: #171717;
-      --node-stroke: #404040;
-      --node-text: #f5f5f5;
-      --node-sub: #a3a3a3;
-      --edge-stroke: #525252;
-      --edge-text: #a3a3a3;
-      --hover-node-stroke: #a3a3a3;
-      --hover-node-fill: #262626;
-      --hover-edge: #d4d4d4;
-    }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Architecture - SIC-Project</title>
+    <meta name="color-scheme" content="dark" />
+    <meta name="darkreader-lock" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Geist+Mono&family=Geist:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap");
 
-    body { 
-      margin: 0; 
-      padding: 2rem; 
-      font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; 
-      background-color: var(--bg-body); 
-      color: var(--node-text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .diagram-container { 
-      width: 100%; 
-      max-width: 1200px;
-      overflow-x: auto; 
-      background-color: var(--bg-container); 
-      border: 1px solid #262626; 
-      border-radius: 12px; 
-      padding: 3rem; 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-    }
-    
-    svg { 
-      width: 100%; 
-      min-width: 960px; 
-      display: block; 
-    }
+      :root {
+        color-scheme: dark;
+        --bg-body: #050505;
+        --bg-container: #0a0a0a;
+        --node-fill: #171717;
+        --node-stroke: #404040;
+        --node-text: #f5f5f5;
+        --node-sub: #a3a3a3;
+        --edge-stroke: #525252;
+        --edge-text: #a3a3a3;
+        --hover-node-stroke: #a3a3a3;
+        --hover-node-fill: #262626;
+        --hover-edge: #d4d4d4;
+      }
 
-    .node rect { 
-      fill: var(--node-fill); 
-      stroke: var(--node-stroke); 
-      stroke-width: 1.5; 
-      rx: 6; 
-      transition: all 0.2s ease;
-    }
-    .node:hover rect {
-      stroke: var(--hover-node-stroke);
-      fill: var(--hover-node-fill);
-    }
-    
-    .node text { 
-      fill: var(--node-text); 
-      font-size: 12px; 
-      font-weight: 600; 
-      transition: all 0.2s ease;
-      letter-spacing: 0.02em;
-    }
-    .node .sub { 
-      font-family: 'Geist Mono', 'Consolas', 'Courier New', monospace; 
-      font-size: 9.5px; 
-      font-weight: normal; 
-      fill: var(--node-sub); 
-    }
-    .node:hover text {
-      fill: #ffffff;
-    }
-    .node:hover .sub {
-      fill: #d4d4d4;
-    }
-    
-    .edge path { 
-      fill: none; 
-      stroke: var(--edge-stroke); 
-      stroke-width: 1.5; 
-      transition: all 0.2s ease;
-    }
-    .edge:hover path {
-      stroke: var(--hover-edge);
-      stroke-width: 2;
-    }
-    
-    .edge text { 
-      font-family: 'Geist Mono', 'Consolas', 'Courier New', monospace; 
-      font-size: 8px; 
-      fill: var(--edge-text); 
-      paint-order: stroke fill;
-      stroke: var(--bg-container);
-      stroke-width: 8px;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-    }
-    
-    .title { 
-      font-family: 'Instrument Serif', Georgia, serif; 
-      font-size: 28px; 
-      fill: var(--node-text); 
-    }
-    .subtitle { 
-      font-family: 'Geist Mono', 'Consolas', 'Courier New', monospace; 
-      font-size: 11px; 
-      fill: #737373; 
-    }
-    
-    .zone { 
-      fill: rgba(255,255,255,0.02); 
-      stroke: rgba(255,255,255,0.1); 
-      stroke-width: 1; 
-      rx: 8; 
-    }
-    .zone-label { 
-      font-family: 'Geist Mono', 'Consolas', 'Courier New', monospace; 
-      font-size: 9px; 
-      fill: rgba(255,255,255,0.4); 
-      letter-spacing: 0.14em; 
-    }
+      body {
+        margin: 0;
+        padding: 2rem;
+        font-family:
+          "Geist",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Arial,
+          sans-serif;
+        background-color: var(--bg-body);
+        color: var(--node-text);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-    @keyframes flow {
-      to { stroke-dashoffset: -20; }
-    }
-    .edge path[stroke-dasharray] {
-      animation: flow 1.5s linear infinite;
-      stroke: var(--node-sub);
-    }
-  </style>
-</head>
-<body>
-  <div class="diagram-container">
-    <svg viewBox="0 0 1188 600" role="img" aria-labelledby="title desc">
-      <title id="title">SIC-Project Architecture</title>
-      <desc id="desc">AI-Based Physiotherapy Posture Checker workflow</desc>
-      
-                                    <defs>
-        <marker id="arrow" viewBox="0 0 190 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0.0 0.0 L 10.5 5.0 L 0.0 10.0 z" fill="#525252" style="fill: context-stroke;" />
-        </marker>
-      </defs>
+      .diagram-container {
+        width: 100%;
+        max-width: 1200px;
+        overflow-x: auto;
+        background-color: var(--bg-container);
+        border: 1px solid #262626;
+        border-radius: 12px;
+        padding: 3rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      }
 
-      <text x="42.0" y="60" class="title">AI Physiotherapy Posture Checker</text>
-      <text x="42.0" y="80" class="subtitle">Computer Vision Pipeline (MediaPipe + Streamlit)</text>
+      svg {
+        width: 100%;
+        min-width: 960px;
+        display: block;
+      }
 
-      <!-- Zones -->
-      <rect x="42.0" y="120" width="252.0" height="400" class="zone" />
-      <text x="52.5" y="135" class="zone-label">STREAMLIT FRONTEND</text>
+      .node rect {
+        fill: var(--node-fill);
+        stroke: var(--node-stroke);
+        stroke-width: 1.5;
+        rx: 6;
+        transition: all 0.2s ease;
+      }
+      .node:hover rect {
+        stroke: var(--hover-node-stroke);
+        fill: var(--hover-node-fill);
+      }
 
-      <rect x="336.0" y="120" width="252.0" height="400" class="zone" />
-      <text x="346.5" y="135" class="zone-label">POSE ESTIMATION ENGINE</text>
+      .node text {
+        fill: var(--node-text);
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        letter-spacing: 0.02em;
+      }
+      .node .sub {
+        font-family: "Geist Mono", "Consolas", "Courier New", monospace;
+        font-size: 9.5px;
+        font-weight: normal;
+        fill: var(--node-sub);
+      }
+      .node:hover text {
+        fill: #ffffff;
+      }
+      .node:hover .sub {
+        fill: #d4d4d4;
+      }
 
-      <rect x="630.0" y="120" width="474.0" height="400" class="zone" />
-      <text x="640.5" y="135" class="zone-label">RULES ENGINE</text>
+      .edge path {
+        fill: none;
+        stroke: var(--edge-stroke);
+        stroke-width: 1.5;
+        transition: all 0.2s ease;
+      }
+      .edge:hover path {
+        stroke: var(--hover-edge);
+        stroke-width: 2;
+      }
 
-      <!-- Nodes -->
-      <g class="node" transform="translate(84.0, 180)">
-        <rect x="0.0" y="0" width="168.0" height="60" />
-        <text x="84.0" y="25" text-anchor="middle" >Browser Webcam</text>
-        <text x="84.0" y="40" class="sub" text-anchor="middle" >streamlit-webrtc</text>
-      </g>
-      <g class="node" transform="translate(84.0, 360)">
-        <rect x="0.0" y="0" width="168.0" height="60" />
-        <text x="84.0" y="25" text-anchor="middle" >Live Feedback Overlay</text>
-        <text x="84.0" y="40" class="sub" text-anchor="middle" >Annotated UI</text>
-      </g>
+      .edge text {
+        font-family: "Geist Mono", "Consolas", "Courier New", monospace;
+        font-size: 8px;
+        fill: var(--edge-text);
+        paint-order: stroke fill;
+        stroke: var(--bg-container);
+        stroke-width: 8px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+      }
 
-      <g class="node" transform="translate(378.0, 180)">
-        <rect x="0.0" y="0" width="168.0" height="60" />
-        <text x="84.0" y="25" text-anchor="middle" >MediaPipe Pose</text>
-        <text x="84.0" y="40" class="sub" text-anchor="middle" >33 Body Landmarks</text>
-      </g>
-      <g class="node" transform="translate(378.0, 300)">
-        <rect x="0.0" y="0" width="168.0" height="60" />
-        <text x="84.0" y="25" text-anchor="middle" >Joint Angle Calculator</text>
-        <text x="84.0" y="40" class="sub" text-anchor="middle" >Knee/Hip/Elbow/Shoulder</text>
-      </g>
+      .title {
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: 28px;
+        fill: var(--node-text);
+      }
+      .subtitle {
+        font-family: "Geist Mono", "Consolas", "Courier New", monospace;
+        font-size: 11px;
+        fill: #737373;
+      }
 
-      <g class="node" transform="translate(693.0, 180)">
-        <rect x="0.0" y="0" width="168.0" height="60" />
-        <text x="84.0" y="25" text-anchor="middle" >Finite State Machine</text>
-        <text x="84.0" y="40" class="sub" text-anchor="middle" >Exercise logic</text>
-      </g>
-      <g class="node" transform="translate(693.0, 270)">
-        <rect x="0.0" y="0" width="168.0" height="60" />
-        <text x="84.0" y="25" text-anchor="middle" >Rep Counter</text>
-        <text x="84.0" y="40" class="sub" text-anchor="middle" >Depth Check</text>
-      </g>
-      <g class="node" transform="translate(693.0, 360)">
-        <rect x="0.0" y="0" width="168.0" height="60" />
-        <text x="84.0" y="25" text-anchor="middle" >Form Error Detection</text>
-        <text x="84.0" y="40" class="sub" text-anchor="middle" >Threshold Check</text>
-      </g>
+      .zone {
+        fill: rgba(255, 255, 255, 0.02);
+        stroke: rgba(255, 255, 255, 0.1);
+        stroke-width: 1;
+        rx: 8;
+      }
+      .zone-label {
+        font-family: "Geist Mono", "Consolas", "Courier New", monospace;
+        font-size: 9px;
+        fill: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.14em;
+      }
 
-      <!-- Edges -->
-      <g class="edge">
-        <!-- Frontend to CV -->
-        <path d="M 252.0 210.0 L 378.0 210.0" marker-end="url(#arrow)" />
+      @keyframes flow {
+        to {
+          stroke-dashoffset: -20;
+        }
+      }
+      .edge path[stroke-dasharray] {
+        animation: flow 1.5s linear infinite;
+        stroke: var(--node-sub);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1188 600" role="img" aria-labelledby="title desc">
+        <title id="title">SIC-Project Architecture</title>
+        <desc id="desc">AI-Based Physiotherapy Posture Checker workflow</desc>
 
-        <!-- CV internal -->
-        <path d="M 462.0 240.0 L 462.0 300.0" marker-end="url(#arrow)" />
+        <defs>
+          <marker
+            id="arrow"
+            viewBox="0 0 190 10"
+            refX="8"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path
+              d="M 0.0 0.0 L 10.5 5.0 L 0.0 10.0 z"
+              fill="#525252"
+              style="fill: context-stroke"
+            />
+          </marker>
+        </defs>
 
-        <!-- CV to Rules -->
-        <path d="M 546.0 330.0 L 609.0 330.0 L 609.0 210.0 L 693.0 210.0" marker-end="url(#arrow)" />
+        <text x="42.0" y="60" class="title">
+          AI Physiotherapy Posture Checker
+        </text>
+        <text x="42.0" y="80" class="subtitle">
+          Computer Vision Pipeline (MediaPipe + Streamlit)
+        </text>
 
-        <!-- Rules Internal -->
-        <path d="M 777.0 240.0 L 777.0 270.0" marker-end="url(#arrow)" />
-        <path d="M 756.0 240.0 L 756.0 255.0 L 661.5 255.0 L 661.5 390.0 L 693.0 390.0" marker-end="url(#arrow)" stroke-dasharray="4,3" />
-        
-        <!-- Rules to Frontend -->
-        <path d="M 693.0 300.0 L 609.0 300.0 L 609.0 390.0 L 252.0 390.0" marker-end="url(#arrow)" />
-        
-        <!-- Overlay to browser view -->
-        <path d="M 168.0 360.0 L 168.0 240.0" marker-end="url(#arrow)" stroke-dasharray="4,3" />
-      </g>
-    </svg>
-  </div>
-</body>
+        <!-- Zones -->
+        <rect x="42.0" y="120" width="252.0" height="400" class="zone" />
+        <text x="52.5" y="135" class="zone-label">STREAMLIT FRONTEND</text>
+
+        <rect x="336.0" y="120" width="252.0" height="400" class="zone" />
+        <text x="346.5" y="135" class="zone-label">POSE ESTIMATION ENGINE</text>
+
+        <rect x="630.0" y="120" width="474.0" height="400" class="zone" />
+        <text x="640.5" y="135" class="zone-label">RULES ENGINE</text>
+
+        <!-- Nodes -->
+        <g class="node" transform="translate(84.0, 180)">
+          <rect x="0.0" y="0" width="168.0" height="60" />
+          <text x="84.0" y="25" text-anchor="middle">Browser Webcam</text>
+          <text x="84.0" y="40" class="sub" text-anchor="middle">
+            streamlit-webrtc
+          </text>
+        </g>
+        <g class="node" transform="translate(84.0, 360)">
+          <rect x="0.0" y="0" width="168.0" height="60" />
+          <text x="84.0" y="25" text-anchor="middle">
+            Live Feedback Overlay
+          </text>
+          <text x="84.0" y="40" class="sub" text-anchor="middle">
+            Annotated UI
+          </text>
+        </g>
+
+        <g class="node" transform="translate(378.0, 180)">
+          <rect x="0.0" y="0" width="168.0" height="60" />
+          <text x="84.0" y="25" text-anchor="middle">MediaPipe Pose</text>
+          <text x="84.0" y="40" class="sub" text-anchor="middle">
+            33 Body Landmarks
+          </text>
+        </g>
+        <g class="node" transform="translate(378.0, 300)">
+          <rect x="0.0" y="0" width="168.0" height="60" />
+          <text x="84.0" y="25" text-anchor="middle">
+            Joint Angle Calculator
+          </text>
+          <text x="84.0" y="40" class="sub" text-anchor="middle">
+            Knee/Hip/Elbow/Shoulder
+          </text>
+        </g>
+
+        <g class="node" transform="translate(693.0, 180)">
+          <rect x="0.0" y="0" width="168.0" height="60" />
+          <text x="84.0" y="25" text-anchor="middle">Finite State Machine</text>
+          <text x="84.0" y="40" class="sub" text-anchor="middle">
+            Exercise logic
+          </text>
+        </g>
+        <g class="node" transform="translate(693.0, 270)">
+          <rect x="0.0" y="0" width="168.0" height="60" />
+          <text x="84.0" y="25" text-anchor="middle">Rep Counter</text>
+          <text x="84.0" y="40" class="sub" text-anchor="middle">
+            Depth Check
+          </text>
+        </g>
+        <g class="node" transform="translate(693.0, 360)">
+          <rect x="0.0" y="0" width="168.0" height="60" />
+          <text x="84.0" y="25" text-anchor="middle">Form Error Detection</text>
+          <text x="84.0" y="40" class="sub" text-anchor="middle">
+            Threshold Check
+          </text>
+        </g>
+
+        <!-- Edges -->
+        <g class="edge">
+          <!-- Frontend to CV -->
+          <path d="M 252.0 210.0 L 378.0 210.0" marker-end="url(#arrow)" />
+
+          <!-- CV internal -->
+          <path d="M 462.0 240.0 L 462.0 300.0" marker-end="url(#arrow)" />
+
+          <!-- CV to Rules -->
+          <path
+            d="M 546.0 330.0 L 609.0 330.0 L 609.0 210.0 L 693.0 210.0"
+            marker-end="url(#arrow)"
+          />
+
+          <!-- Rules Internal -->
+          <path d="M 777.0 240.0 L 777.0 270.0" marker-end="url(#arrow)" />
+          <path
+            d="M 756.0 240.0 L 756.0 255.0 L 661.5 255.0 L 661.5 390.0 L 693.0 390.0"
+            marker-end="url(#arrow)"
+            stroke-dasharray="4,3"
+          />
+
+          <!-- Rules to Frontend -->
+          <path
+            d="M 693.0 300.0 L 609.0 300.0 L 609.0 390.0 L 252.0 390.0"
+            marker-end="url(#arrow)"
+          />
+
+          <!-- Overlay to browser view -->
+          <path
+            d="M 168.0 360.0 L 168.0 240.0"
+            marker-end="url(#arrow)"
+            stroke-dasharray="4,3"
+          />
+        </g>
+      </svg>
+    </div>
+  </body>
 </html>
