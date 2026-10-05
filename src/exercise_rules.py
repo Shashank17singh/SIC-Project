@@ -80,9 +80,14 @@ def _side_angles(side: Side) -> dict:
     shoulder = getattr(L, f"{prefix}_SHOULDER")
     elbow = getattr(L, f"{prefix}_ELBOW")
     wrist = getattr(L, f"{prefix}_WRIST")
-    return dict(
-        hip=hip, knee=knee, ankle=ankle, shoulder=shoulder, elbow=elbow, wrist=wrist
-    )
+    return {
+        "hip": hip,
+        "knee": knee,
+        "ankle": ankle,
+        "shoulder": shoulder,
+        "elbow": elbow,
+        "wrist": wrist,
+    }
 
 
 def build_squat_spec(side: Side = "LEFT") -> ExerciseSpec:
