@@ -15,7 +15,7 @@
 
 ## Overview
 
-Developed a web application that points a browser webcam at MediaPipe's pose-landmark model, converts the
+An AI physiotherapy app that gives real-time feedback on exercise form. It uses MediaPipe to track body landmarks, calculates joint angles to count repetitions, and corrects user posture on the fly.
 landmarks into joint angles (knee, hip, elbow, shoulder), and runs each
 angle stream through a small per-exercise rule set: a 2-state machine for
 rep counting (squat, push-up), plus threshold-based form checks (leaning too far forward,
