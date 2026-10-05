@@ -142,7 +142,7 @@ class PostureVideoProcessor(VideoProcessorBase):
             self.last_hold_seconds = result.hold_seconds
             self.last_rep_shallow = result.last_rep_shallow
             return av.VideoFrame.from_ndarray(result.annotated_frame, format="bgr24")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Error in recv: {e}")
             err_img = frame.to_ndarray(format="bgr24")
             cv2.putText(
