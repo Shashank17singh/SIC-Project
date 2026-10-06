@@ -91,7 +91,6 @@ def _side_angles(side: Side) -> dict:
 
 
 def build_squat_spec(side: Side = "LEFT") -> ExerciseSpec:
-    """Returns the rules and form checks for a Squat."""
     j = _side_angles(side)
     return ExerciseSpec(
         display_name="Squat",
@@ -115,7 +114,6 @@ def build_squat_spec(side: Side = "LEFT") -> ExerciseSpec:
 
 
 def build_bicep_curl_spec(side: Side = "LEFT") -> ExerciseSpec:
-    """Returns the rules and form checks for a Bicep Curl."""
     j = _side_angles(side)
     return ExerciseSpec(
         display_name="Bicep Curl",
@@ -137,7 +135,6 @@ def build_bicep_curl_spec(side: Side = "LEFT") -> ExerciseSpec:
 
 
 def build_plank_spec(side: Side = "LEFT") -> ExerciseSpec:
-    """Returns the rules and form checks for a Plank."""
     j = _side_angles(side)
     return ExerciseSpec(
         display_name="Plank",
@@ -152,7 +149,6 @@ def build_plank_spec(side: Side = "LEFT") -> ExerciseSpec:
 
 
 def build_push_up_spec(side: Side = "LEFT") -> ExerciseSpec:
-    """Returns the rules and form checks for a Push-up."""
     j = _side_angles(side)
     return ExerciseSpec(
         display_name="Push-up",
@@ -176,7 +172,6 @@ def build_push_up_spec(side: Side = "LEFT") -> ExerciseSpec:
 
 
 def build_lunge_spec(side: Side = "LEFT") -> ExerciseSpec:
-    """Returns the rules and form checks for a Lunge."""
     j = _side_angles(side)
     return ExerciseSpec(
         display_name="Lunge",
