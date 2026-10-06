@@ -207,16 +207,4 @@ MIT
 
 ---
 
-## Deep Codebase Analysis
 
-| File                    | Purpose / Details                                                           |
-| ----------------------- | --------------------------------------------------------------------------- |
-| `app.py`                | AI Physiotherapy Posture Checker - Streamlit front end.                     |
-| `packages.txt`          | Core component logic and implementation details.                            |
-| `requirements.txt`      | Core component logic and implementation details.                            |
-| `src\__init__.py`       | Core component logic and implementation details.                            |
-| `src\analyzer.py`       | Ties everything together: takes a raw BGR frame, runs MediaPipe pose        |
-| `src\exercise_rules.py` | Per-exercise rule definitions.                                              |
-| `src\pose_utils.py`     | Pose landmark extraction and joint-angle geometry.                          |
-| `src\rep_counter.py`    | State machines for turning a stream of per-frame angles into rep counts     |
-| `tests\test_angles.py`  | Unit tests for the pure geometry (no webcam, no MediaPipe model inference). |
