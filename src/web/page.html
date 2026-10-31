@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>/*__CSS__*/</style>
+  </head>
+  <body>
+    <div class="layout">
+      <section aria-label="Camera">
+        <div class="frame" id="frame" data-live="false">
+          <video id="video" autoplay muted playsinline aria-label="Your camera"></video>
+          <canvas id="overlay" aria-hidden="true"></canvas>
+          <div class="frame__idle">Press Start and allow camera access.</div>
+          <div class="frame__hud">
+            <strong id="overlay-metric"></strong>
+            <div id="overlay-feedback"></div>
+          </div>
+        </div>
+        <div class="controls">
+          <button type="button" id="start">Start</button>
+          <p id="status" role="status"></p>
+        </div>
+      </section>
+
+      <section aria-label="Live stats">
+        <fieldset>
+          <legend>Exercise</legend>
+          <div class="choices" id="exercise"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Which side is facing the camera?</legend>
+          <div class="choices" id="side"></div>
+        </fieldset>
+        <p class="stat__label" id="metric-label">Reps</p>
+        <p class="stat__value" id="metric" data-testid="metric">0</p>
+        <p class="note note--warn" id="shallow" hidden>Last rep was shallow - try to go deeper.</p>
+        <p class="note" id="feedback" role="status"></p>
+        <ul id="angles" aria-label="Joint angles"></ul>
+      </section>
+    </div>
+
+    <script>
+      window.POSTURE_CONFIG = /*__CONFIG__*/null;
+      window.POSE_WORKER_SOURCE = /*__WORKER__*/null;
+    </script>
+    <script>/*__FORM_LOGIC__*/</script>
+    <script>/*__CAMERA__*/</script>
+  </body>
+</html>

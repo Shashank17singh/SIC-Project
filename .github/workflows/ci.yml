@@ -29,6 +29,14 @@ jobs:
       - name: Check formatting
         run: ruff format --check .
 
-      - name: Run tests
+      - name: Run Python tests
         run: pytest tests/ -v
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run browser logic tests
+        run: node --test tests/form_logic.test.js
 
