@@ -1,9 +1,10 @@
 """
 Streamlit WebRTC application for real-time AI physiotherapy posture checking.
 Captures video, runs MediaPipe pose estimation, and provides live feedback.
-Architecture note: Relies on `streamlit-webrtc` to run a local frame processing loop. 
+Architecture note: Relies on `streamlit-webrtc` to run a local frame processing loop.
 UI thread sync is done via the `VideoProcessorBase` instance properties.
 """
+
 import av
 import cv2
 import streamlit as st

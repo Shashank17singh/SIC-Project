@@ -68,7 +68,7 @@ graph TD
 | **Shallow-Rep Detection**            | Tracks the minimum angle reached during the "down" phase - flags reps that didn't reach full depth                                                     |
 | **Live Form Feedback**               | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as on-screen overlay + sidebar warnings                           |
 | **Browser Webcam, No Server Camera** | `streamlit-webrtc` streams frames from the browser's `getUserMedia`, so it deploys on Streamlit Community Cloud without needing a camera on the server |
-| **Testable Core Logic**              | Angle math and rep/hold state machines are pure functions with no MediaPipe or webcam dependency - unit tested in isolation                            |
+| **Testable Core Logic**              | Angle math and rep/hold state machines need no webcam, so they are unit tested in isolation                            |
 
 ---
 
@@ -187,9 +187,7 @@ pytest tests/ -v
 - Automatic exercise recognition (classify which exercise is being
   performed instead of manual radio button selection).
 - Per-user threshold calibration from a short calibration set.
-- Session history / progress tracking across workouts (ties into the
-  "Stroke Rehabilitation Progress Tracker" idea from the same project
-  list this was picked from).
+- Session history and progress tracking across workouts.
 - Swap the 2-state rep counter for a learned temporal segmentation model
   once there's a labeled rep dataset to justify it.
 
