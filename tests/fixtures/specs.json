@@ -1,0 +1,146 @@
+{
+  "squat": {
+    "LEFT": {
+      "display_name": "Squat",
+      "angles": [
+        {
+          "name": "knee",
+          "point_a": 23,
+          "vertex": 25,
+          "point_c": 27
+        },
+        {
+          "name": "hip_lean",
+          "point_a": 11,
+          "vertex": 23,
+          "point_c": 25
+        }
+      ],
+      "rep_stage": {
+        "primary_angle": "knee",
+        "down_below": 100,
+        "up_above": 160,
+        "shallow_below": 80
+      },
+      "form_checks": [
+        {
+          "angle_name": "hip_lean",
+          "min_ok": 45,
+          "max_ok": 180,
+          "message": "Keep your chest up - you're leaning too far forward",
+          "active_stage": "down"
+        }
+      ],
+      "hold_target_angle": null,
+      "hold_min_ok": null,
+      "hold_max_ok": null
+    },
+    "RIGHT": {
+      "display_name": "Squat",
+      "angles": [
+        {
+          "name": "knee",
+          "point_a": 24,
+          "vertex": 26,
+          "point_c": 28
+        },
+        {
+          "name": "hip_lean",
+          "point_a": 12,
+          "vertex": 24,
+          "point_c": 26
+        }
+      ],
+      "rep_stage": {
+        "primary_angle": "knee",
+        "down_below": 100,
+        "up_above": 160,
+        "shallow_below": 80
+      },
+      "form_checks": [
+        {
+          "angle_name": "hip_lean",
+          "min_ok": 45,
+          "max_ok": 180,
+          "message": "Keep your chest up - you're leaning too far forward",
+          "active_stage": "down"
+        }
+      ],
+      "hold_target_angle": null,
+      "hold_min_ok": null,
+      "hold_max_ok": null
+    }
+  },
+  "push_up": {
+    "LEFT": {
+      "display_name": "Push-up",
+      "angles": [
+        {
+          "name": "elbow",
+          "point_a": 11,
+          "vertex": 13,
+          "point_c": 15
+        },
+        {
+          "name": "body_line",
+          "point_a": 11,
+          "vertex": 23,
+          "point_c": 27
+        }
+      ],
+      "rep_stage": {
+        "primary_angle": "elbow",
+        "down_below": 90,
+        "up_above": 160,
+        "shallow_below": 110
+      },
+      "form_checks": [
+        {
+          "angle_name": "body_line",
+          "min_ok": 150,
+          "max_ok": 180,
+          "message": "Keep your body straight - don't let your hips sag or pike up",
+          "active_stage": null
+        }
+      ],
+      "hold_target_angle": null,
+      "hold_min_ok": null,
+      "hold_max_ok": null
+    },
+    "RIGHT": {
+      "display_name": "Push-up",
+      "angles": [
+        {
+          "name": "elbow",
+          "point_a": 12,
+          "vertex": 14,
+          "point_c": 16
+        },
+        {
+          "name": "body_line",
+          "point_a": 12,
+          "vertex": 24,
+          "point_c": 28
+        }
+      ],
+      "rep_stage": {
+        "primary_angle": "elbow",
+        "down_below": 90,
+        "up_above": 160,
+        "shallow_below": 110
+      },
+      "form_checks": [
+        {
+          "angle_name": "body_line",
+          "min_ok": 150,
+          "max_ok": 180,
+          "message": "Keep your body straight - don't let your hips sag or pike up",
+          "active_stage": null
+        }
+      ],
+      "hold_target_angle": null,
+      "hold_min_ok": null,
+      "hold_max_ok": null
+    }
+  }
+}

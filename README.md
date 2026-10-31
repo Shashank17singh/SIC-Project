@@ -2,12 +2,12 @@
 
 # AI-Based Physiotherapy Posture Checker
 
-**Real-time exercise form feedback using pose estimation - counts reps, flags shallow reps, and calls out common form errors as they happen**
+**Real-time exercise form feedback using in-browser pose estimation - counts reps, flags shallow reps, and calls out common form errors as they happen**
 
 [![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![MediaPipe](https://img.shields.io/badge/MediaPipe-Pose-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/mediapipe)
-[![OpenCV](https://img.shields.io/badge/OpenCV-Video-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-Browser%20Runtime-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
 
 </div>
 
@@ -15,7 +15,7 @@
 
 ## Overview
 
-An AI physiotherapy app that gives real-time feedback on exercise form. It uses MediaPipe to track body landmarks, calculates joint angles to count repetitions, and corrects user posture on the fly.
+An AI physiotherapy app that gives real-time feedback on exercise form. It uses MediaPipe to track body landmarks in the browser, turns those
 landmarks into joint angles (knee, hip, elbow, shoulder), and runs each
 angle stream through a small per-exercise rule set: a 2-state machine for
 rep counting (squat, push-up), plus threshold-based form checks (leaning too far forward,
@@ -26,19 +26,26 @@ No exercise-classification model, no dataset to collect or label - the
 interpretable geometry, which also means every piece of feedback is
 explainable (you can point at the exact angle and threshold that fired).
 
+The camera feed is shown directly by the browser at up to 720p and is never
+uploaded, so the video stays sharp and there is no server round trip.
+
 ---
 
 ### Computer Vision Pipeline
 
 ```mermaid
 graph TD
-    subgraph "Streamlit Frontend"
-    A[Browser Webcam] -->|streamlit-webrtc| B(Video Frame)
-    H[Live Feedback Overlay] --> A
+    subgraph "Streamlit App"
+    J[Exercise Rules in Python] -->|Embedded as JSON| F
+    end
+
+    subgraph "Browser Camera Page"
+    A[Browser Webcam] -->|getUserMedia| B(Live Video Element)
+    H[Live Feedback Overlay] --> B
     end
 
     subgraph "Pose Estimation Engine"
-    B --> C{MediaPipe Pose Model}
+    B --> C{MediaPipe Pose Landmarker}
     C -->|33 Body Landmarks| D[Joint Angle Calculator]
     D --> E(Knee, Hip, Elbow, Shoulder Angles)
     end
@@ -55,7 +62,7 @@ graph TD
     classDef core fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000;
     classDef logic fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000;
 
-    class A,H,B io;
+    class A,H,B,J io;
     class C,D,E core;
     class F,G,I logic;
 ```
@@ -66,52 +73,63 @@ graph TD
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Rep Counting**                     | 2-state machine per exercise, driven by one primary joint angle (e.g. knee angle for squats)                                                           |
 | **Shallow-Rep Detection**            | Tracks the minimum angle reached during the "down" phase - flags reps that didn't reach full depth                                                     |
-| **Live Form Feedback**               | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as on-screen overlay + sidebar warnings                           |
-| **Browser Webcam, No Server Camera** | `streamlit-webrtc` streams frames from the browser's `getUserMedia`, so it deploys on Streamlit Community Cloud without needing a camera on the server |
-| **Testable Core Logic**              | Angle math and rep/hold state machines need no webcam, so they are unit tested in isolation                            |
+| **Live Form Feedback**               | Threshold-based checks per exercise (forward lean, elbow swing, sagging hips), shown as an on-screen overlay and in the stats panel                    |
+| **Sharp, Direct Video**              | The browser shows the camera directly at up to 720p, with no compression or server round trip                                                         |
+| **Private by Design**                | Pose detection runs on the device, so video is never uploaded                                                                                          |
+| **Testable Core Logic**              | Angle math and rep/hold state machines need no webcam, so they are unit tested in isolation                                                            |
 
 ---
 
 ## Tech Stack
 
-**Language** - Python 3.x
-**Pose Estimation** - MediaPipe Pose (legacy `solutions` API, pinned to `0.10.14`)
-**Video** - OpenCV (frame processing) · `streamlit-webrtc` + `av` (browser webcam → server frames)
-**Frontend** - Streamlit
-**Testing** - pytest
+**Languages** - Python 3.x, JavaScript
+**Pose Estimation** - MediaPipe Pose Landmarker (`@mediapipe/tasks-vision`, running in the browser)
+**Video** - Browser `getUserMedia`, with the skeleton drawn on a canvas overlay
+**App** - Streamlit
+**Testing** - pytest, Node test runner
 
 ---
 
 ## Architecture Overview
 
 ```
-Browser webcam (getUserMedia)
-   │  streamlit-webrtc (WebRTC)
+exercise_rules.py  → declarative per-exercise spec (angles, thresholds, rep stages)
+   │  camera_page.py embeds the specs as JSON
    ▼
-PostureVideoProcessor.recv()  (app.py)
+Streamlit page (app.py) → st.iframe(self-contained camera page)
+   │
+   ▼  Everything below runs in the browser
+Browser webcam (getUserMedia) → <video>, shown directly
    │
    ▼
-ExerciseAnalyzer.process()  (src/analyzer.py)
-   │  1. pose_utils.py      → MediaPipe landmark extraction + angle geometry
-   │  2. exercise_rules.py  → declarative per-exercise spec (angles, thresholds, rep stages)
-   │  3. rep_counter.py     → RepCounterState (squat/push-up)
+MediaPipe Pose Landmarker in a background worker  (src/web/pose_worker.js)
+   │  33 body landmarks
    ▼
-Annotated frame + feedback list + rep count / hold time
+FormAnalyzer.process()  (src/web/form_logic.js)
+   │  angle geometry, RepCounter (squat/push-up), HoldTimer, form checks
    ▼
-Streamlit sidebar (live stats) + on-frame overlay
+Skeleton on a canvas overlay + live stats + feedback list
 ```
 
 **Design choices:**
 
 - **Declarative exercise specs, not per-exercise branching code.** Adding a
   new exercise means adding one `ExerciseSpec` to `exercise_rules.py` - the
-  analyzer's control flow doesn't change.
+  analyzer's control flow doesn't change, and Python stays the one place
+  thresholds are defined.
 - **Rule-based, not a learned classifier.** Transparent, zero training
   cost, tunable by eye from a few test videos. The trade-off is manual
   threshold tuning per exercise/body type - see Limitations.
-- **Analyzer has zero UI dependency.** `ExerciseAnalyzer.process()` takes a
-  raw frame and returns a plain dataclass - it doesn't know Streamlit or
-  WebRTC exist, so the angle/rep-counting logic is unit tested directly.
+- **Analyzer has zero UI dependency.** `FormAnalyzer.process()` takes
+  landmarks and returns a plain object - it doesn't know the camera or
+  Streamlit exist, so the angle/rep-counting logic is unit tested directly.
+- **Video stays in the browser.** Sending frames to a server and back meant
+  compressing them twice, which limited quality to 640×480 at about 15 fps.
+  Running detection on the device removes that trip entirely, and a
+  background worker keeps it from ever stalling the video.
+- **Thresholds keep their tuned meaning.** Angles are measured on normalized
+  coordinates and the thresholds were tuned on 4:3 video, so wider video is
+  rescaled before measuring.
 
 ---
 
@@ -138,13 +156,15 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Open the URL Streamlit prints, click **Start** on the video panel, allow
-camera access, and pick an exercise from the sidebar.
+Open the URL Streamlit prints, click **Start** under the video panel, allow
+camera access, and pick an exercise from the panel beside it. The first start
+downloads the pose model (about 9 MB), and the browser caches it after that.
 
 ### 4. Run the tests
 
 ```bash
 pytest tests/ -v
+node --test tests/form_logic.test.js
 ```
 
 ---
@@ -176,6 +196,10 @@ pytest tests/ -v
 - **Not a medical device.** This flags form patterns against fixed
   geometric rules - it does not diagnose injury risk and isn't a
   substitute for in-person physiotherapist supervision.
+- **Needs a capable device.** Pose detection runs on the visitor's own
+  device, so an older phone or laptop will update the skeleton less often,
+  though the video itself stays smooth. The page also needs internet access to
+  fetch the model and MediaPipe runtime.
 - **Single person, single exercise at a time.** No multi-person tracking
   or automatic exercise detection (the user selects the exercise from
   radio buttons).
