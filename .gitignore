@@ -4,3 +4,13 @@ __pycache__/
 .streamlit/secrets.toml
 .DS_Store
 .SIC.pdf
+
+# Local AI assistant configuration
+.agents/
+
+# Editor settings
+.vscode/
+
+# Personal documents
+SIC.pdf
+SIC Certificate.pdf
