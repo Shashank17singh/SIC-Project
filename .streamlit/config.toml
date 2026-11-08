@@ -1,0 +1,8 @@
+[theme]
+# Dark plum with violet for the posture checker.
+base = "dark"
+primaryColor = "#9d5cf0"
+backgroundColor = "#16131c"
+secondaryBackgroundColor = "#221c2b"
+textColor = "#efe8f5"
+font = "sans-serif"

@@ -1,17 +1,6 @@
-<div align="center">
-
 # AI-Based Physiotherapy Posture Checker
 
-**Real-time exercise form feedback using in-browser pose estimation - counts reps, flags shallow reps, and calls out common form errors as they happen**
-
-[![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![MediaPipe](https://img.shields.io/badge/MediaPipe-Pose-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/mediapipe)
-[![JavaScript](https://img.shields.io/badge/JavaScript-Browser%20Runtime-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
-
-</div>
-
----
+Real-time exercise form feedback using in-browser pose estimation, counts reps, flags shallow reps, and calls out common form errors as they happen.
 
 ## Overview
 

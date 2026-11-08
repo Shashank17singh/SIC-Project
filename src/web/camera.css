@@ -5,7 +5,7 @@
   --well: color-mix(in srgb, var(--text) 6%, transparent);
   --good: #16a34a;
   --bad: #dc2626;
-  --accent: #ff4b4b;
+  --accent: #9d5cf0; /* matches .streamlit/config.toml primaryColor */
   color-scheme: light dark;
 }
 
