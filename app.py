@@ -6,7 +6,6 @@ Python defines the exercise rules and serves the page.
 """
 
 import streamlit as st
-
 from src.camera_page import build_page
 
 st.set_page_config(page_title="AI Physiotherapy Posture Checker", layout="wide")
