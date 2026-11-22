@@ -200,11 +200,11 @@ Live deployment is hosted on Streamlit Community Cloud at [sic-project.streamlit
 
 ---
 
-## Known Limitations
+## Operational Considerations & Limitations
 
-- **2D Planar Projection:** Joint angles are computed in the 2D camera image plane; non-perpendicular camera angles distort planar measurements.
-- **Fixed Angle Thresholds:** Thresholds represent generalized biomechanical guidelines and do not dynamically calibrate for individual anthropometric variations.
-- **Non-Diagnostic:** The software provides athletic form feedback and is not a medical diagnostic tool or substitute for clinical physiotherapy supervision.
+- **2D Planar Projection**: Joint angles are computed in the 2D camera image plane; non-perpendicular camera angles distort planar measurements.
+- **Fixed Angle Thresholds**: Thresholds represent generalized biomechanical guidelines and do not dynamically calibrate for individual anthropometric variations.
+- **Non-Diagnostic Guidance**: The software provides athletic form feedback and is not a medical diagnostic tool or substitute for clinical physiotherapy supervision.
 
 ---
 
